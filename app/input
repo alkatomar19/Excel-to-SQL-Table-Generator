@@ -1,0 +1,14 @@
+tables_metadata = [
+    {
+        "name": "fact_sales",
+        "foreign_keys": ["customer_id", "product_id"]
+    },
+    {
+        "name": "dim_customer",
+        "foreign_keys": []
+    },
+    {
+        "name": "dim_product",
+        "foreign_keys": []
+    }
+]
