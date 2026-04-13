@@ -10,27 +10,8 @@ A Python-based schema inference tool that:
 
 An intelligent data engineering tool that transforms raw Excel datasets into production-ready data warehouse assets.
 
-excel-to-datawarehouse-engine/
-│
-├── app/
-│   ├── main.py
-│   ├── schema_inference.py
-│   ├── scd_merge.py
-│   ├── erd_generator.py
-│
-├── ui/
-│   └── streamlit_app.py
-│
-├── output/
-│   ├── sample_create.sql
-│   ├── sample_merge.sql
-│   ├── erd.png
-│
-├── data/
-│   └── sample.xlsx
-│
-├── requirements.txt
-└── README.md
+<img width="327" height="404" alt="image" src="https://github.com/user-attachments/assets/1f05e1ca-dc90-4d24-894f-e90d622458bb" />
+
 
 ## Features
 
