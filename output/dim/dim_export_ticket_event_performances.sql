@@ -1,0 +1,25 @@
+
+CREATE TABLE dim.export_ticket_event_performances (
+    event_id VARCHAR(255),
+    year VARCHAR(255),
+    event_code VARCHAR(255),
+    event_title VARCHAR(255),
+    event_total_sold VARCHAR(255),
+    event_total_held VARCHAR(255),
+    sales_notes_internal VARCHAR(255),
+    sales_notes_external VARCHAR(255),
+    performance_id VARCHAR(255),
+    performance_code VARCHAR(255),
+    date VARCHAR(255),
+    time VARCHAR(255),
+    sales_method VARCHAR(255),
+    total_sold VARCHAR(255),
+    total_held VARCHAR(255),
+    tax_rate VARCHAR(255),
+    performance_notes VARCHAR(255),
+    venue_id VARCHAR(255),
+    venue_name_internal VARCHAR(255),
+    performance_pricing_map_id VARCHAR(255),
+    pricing_map_name VARCHAR(255),
+    created_at VARCHAR(255)
+);

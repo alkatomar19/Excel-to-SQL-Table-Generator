@@ -2,11 +2,16 @@ import os
 import time
 import logging
 import argparse
-
+import pandas as pd
 from sqlgen import generate_create_table
 from db_setup import run_database_setup
 from ingestion import run_ingestion
 from utils import clean_name
+from dim import create_dimensions_sql
+from fact import create_facts_sql
+from utils import clean_name
+from db_connection import get_engine
+from sqlalchemy import inspect
 
 def setup_logger():
     logging.basicConfig(
@@ -20,7 +25,7 @@ def setup_logger():
 
 
 def run_sql_generation(data_folder="data", output_folder="output"):
-    import pandas as pd
+    
 
     os.makedirs(output_folder, exist_ok=True)
 
@@ -48,6 +53,16 @@ def run_sql_generation(data_folder="data", output_folder="output"):
             with open(f"{output_folder}/{table}.sql", "w") as f:
                 f.write(sql)
 
+def run_modeling(table_name):
+    engine = get_engine()
+    df = pd.read_sql(f"SELECT * FROM staging.{table_name}", engine)
+    base_name = clean_name(table_name)
+    dim_table = create_dimensions_sql(df, base_name)
+    fact_table = create_facts_sql(df, base_name)
+
+    print("STAR SCHEMA CREATED")
+    print("DIMS:", dim_table)
+    print("FACT:", fact_table)
 
 def main():
     start = time.time()
@@ -67,8 +82,20 @@ def main():
 
     # STEP 3
     logging.info("STEP 3: INGESTION")
-    run_ingestion()
+    #run_ingestion()
     logging.info("STEP 3 DONE")
+
+    # STEP 4
+    engine = get_engine()
+    inspector = inspect(engine)
+    tables = inspector.get_table_names(schema="staging")
+    print(tables)
+    logging.info("STEP 4: STAR SCHEMA GENERATION")
+
+    for table_name in tables:
+        run_modeling(table_name)
+
+    logging.info("STEP 4 DONE")
 
     logging.info(f" PIPELINE COMPLETE in {round(time.time()-start,2)}s")
 
