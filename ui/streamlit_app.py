@@ -1,6 +1,6 @@
 import streamlit as st
 import pandas as pd
-from app.schema_inference import generate_create_table
+from schema_inference import generate_create_table
 
 st.title("Excel to SQL Table Generator")
 
