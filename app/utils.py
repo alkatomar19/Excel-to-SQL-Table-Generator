@@ -1,8 +1,8 @@
 import pandas as pd
+import re
 from sqlalchemy import inspect
-def clean_name(name: str) -> str:
-    import re
 
+def clean_name(name: str) -> str:
     name = name.strip().lower()
 
     #  Replace business symbols FIRST
@@ -63,8 +63,6 @@ def build_star_schema(df):
 def build_table_name(base: str, type_: str):
     base = clean_name(base)
     return f"staging.dim_{base}" if type_ == "dim" else f"staging.fact_{base}"
-
-from sqlalchemy import inspect
 
 def get_staging_tables(engine):
     inspector = inspect(engine)

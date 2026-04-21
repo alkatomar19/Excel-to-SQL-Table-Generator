@@ -3,8 +3,8 @@ import time
 import logging
 import argparse
 import pandas as pd
-from sqlgen import generate_create_table
-from db_setup import run_database_setup
+from sqlgen import run_sql_generation
+from db_setup import run_database_setup, Generate_master_script
 from ingestion import run_ingestion
 from utils import clean_name
 from dim import create_dimensions_sql
@@ -22,36 +22,6 @@ def setup_logger():
             logging.StreamHandler()
         ]
     )
-
-
-def run_sql_generation(data_folder="data", output_folder="output"):
-    
-
-    os.makedirs(output_folder, exist_ok=True)
-
-    for file in os.listdir(data_folder):
-        if not file.endswith(".xlsx"):
-            continue
-
-        path = os.path.join(data_folder, file)
-        base = file.replace(".xlsx", "").lower()
-
-        excel = pd.ExcelFile(path)
-
-        for sheet in excel.sheet_names:
-            df = excel.parse(sheet)
-
-            if df.empty:
-                continue
-
-            #table = f"{base}_{sheet}".lower().replace(" ", "_")
-            #table = f"{base}".lower().replace(" ", "_")
-            table = clean_name(f"{base}")
-
-            sql = generate_create_table(df, table)
-
-            with open(f"{output_folder}/{table}.sql", "w") as f:
-                f.write(sql)
 
 def run_modeling(table_name):
     engine = get_engine()
@@ -78,6 +48,7 @@ def main():
     # STEP 2
     logging.info("STEP 2: DATABASE SETUP")
     #run_database_setup()
+    #Generate_master_script("staging")
     logging.info("STEP 2 DONE")
 
     # STEP 3
@@ -92,8 +63,8 @@ def main():
     print(tables)
     logging.info("STEP 4: STAR SCHEMA GENERATION")
 
-    for table_name in tables:
-        run_modeling(table_name)
+    #for table_name in tables:
+        #run_modeling(table_name)
 
     logging.info("STEP 4 DONE")
 
