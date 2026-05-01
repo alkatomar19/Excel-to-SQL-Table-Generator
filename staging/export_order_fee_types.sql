@@ -1,5 +1,13 @@
 
-    CREATE TABLE staging.export_order_fee_types (
+    IF NOT EXISTS (
+    SELECT 1
+    FROM sys.tables t
+    JOIN sys.schemas s ON t.schema_id = s.schema_id
+    WHERE t.name = 'export_order_fee_types'
+      AND s.name = 'staging'
+    )
+    BEGIN
+        CREATE TABLE staging.export_order_fee_types (
     order_fee_id VARCHAR(2) NOT NULL,
 fee_description_internal VARCHAR(36) NOT NULL,
 fee_description_external VARCHAR(36) NOT NULL,
@@ -14,4 +22,6 @@ base_price_item_maximum DECIMAL(11,2) NOT NULL,
 tax_rate VARCHAR(6) NOT NULL,
 created_at DATETIME DEFAULT GETDATE()
     );
+    END
+    GO
     

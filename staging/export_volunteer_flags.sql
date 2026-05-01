@@ -1,5 +1,13 @@
 
-    CREATE TABLE staging.export_volunteer_flags (
+    IF NOT EXISTS (
+    SELECT 1
+    FROM sys.tables t
+    JOIN sys.schemas s ON t.schema_id = s.schema_id
+    WHERE t.name = 'export_volunteer_flags'
+      AND s.name = 'staging'
+    )
+    BEGIN
+        CREATE TABLE staging.export_volunteer_flags (
     patron_id VARCHAR(5) NOT NULL,
 first_name VARCHAR(14) NULL,
 last_name VARCHAR(16) NULL,
@@ -15,4 +23,6 @@ flag_play_instrument BIT NOT NULL,
 volunteer_note VARCHAR(38) NULL,
 created_at DATETIME DEFAULT GETDATE()
     );
+    END
+    GO
     

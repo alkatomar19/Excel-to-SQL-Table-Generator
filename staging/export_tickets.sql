@@ -1,5 +1,13 @@
 
-    CREATE TABLE staging.export_tickets (
+    IF NOT EXISTS (
+    SELECT 1
+    FROM sys.tables t
+    JOIN sys.schemas s ON t.schema_id = s.schema_id
+    WHERE t.name = 'export_tickets'
+      AND s.name = 'staging'
+    )
+    BEGIN
+        CREATE TABLE staging.export_tickets (
     patron_id VARCHAR(5) NOT NULL,
 first_name VARCHAR(20) NULL,
 last_name VARCHAR(21) NULL,
@@ -39,4 +47,6 @@ company_2 VARCHAR(38) NULL,
 order_id VARCHAR(6) NOT NULL,
 created_at DATETIME DEFAULT GETDATE()
     );
+    END
+    GO
     

@@ -1,5 +1,13 @@
 
-    CREATE TABLE staging.export_patron_relationships (
+    IF NOT EXISTS (
+    SELECT 1
+    FROM sys.tables t
+    JOIN sys.schemas s ON t.schema_id = s.schema_id
+    WHERE t.name = 'export_patron_relationships'
+      AND s.name = 'staging'
+    )
+    BEGIN
+        CREATE TABLE staging.export_patron_relationships (
     patron1_id VARCHAR(5) NOT NULL,
 first_name_1 VARCHAR(9) NULL,
 last_name_1 VARCHAR(9) NULL,
@@ -13,4 +21,6 @@ relation_2 VARCHAR(21) NOT NULL,
 relationship_note VARCHAR(50) NULL,
 created_at DATETIME DEFAULT GETDATE()
     );
+    END
+    GO
     

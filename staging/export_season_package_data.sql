@@ -1,5 +1,13 @@
 
-    CREATE TABLE staging.export_season_package_data (
+    IF NOT EXISTS (
+    SELECT 1
+    FROM sys.tables t
+    JOIN sys.schemas s ON t.schema_id = s.schema_id
+    WHERE t.name = 'export_season_package_data'
+      AND s.name = 'staging'
+    )
+    BEGIN
+        CREATE TABLE staging.export_season_package_data (
     patron_id VARCHAR(5) NOT NULL,
 first_name VARCHAR(15) NULL,
 last_name VARCHAR(18) NULL,
@@ -20,4 +28,6 @@ auto_renew_number_of_payments BIT NOT NULL,
 order_id VARCHAR(6) NOT NULL,
 created_at DATETIME DEFAULT GETDATE()
     );
+    END
+    GO
     

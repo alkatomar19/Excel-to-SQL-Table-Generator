@@ -1,5 +1,13 @@
 
-    CREATE TABLE staging.export_donation_funds (
+    IF NOT EXISTS (
+    SELECT 1
+    FROM sys.tables t
+    JOIN sys.schemas s ON t.schema_id = s.schema_id
+    WHERE t.name = 'export_donation_funds'
+      AND s.name = 'staging'
+    )
+    BEGIN
+        CREATE TABLE staging.export_donation_funds (
     donation_campaign_id BIT NOT NULL,
 donation_campaign_name VARCHAR(22) NOT NULL,
 start_date VARCHAR(50) NULL,
@@ -16,4 +24,6 @@ giving_level_matrix_id BIT NOT NULL,
 giving_level_matrix_description VARCHAR(14) NOT NULL,
 created_at DATETIME DEFAULT GETDATE()
     );
+    END
+    GO
     

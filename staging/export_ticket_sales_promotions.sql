@@ -1,5 +1,13 @@
 
-    CREATE TABLE staging.export_ticket_sales_promotions (
+    IF NOT EXISTS (
+    SELECT 1
+    FROM sys.tables t
+    JOIN sys.schemas s ON t.schema_id = s.schema_id
+    WHERE t.name = 'export_ticket_sales_promotions'
+      AND s.name = 'staging'
+    )
+    BEGIN
+        CREATE TABLE staging.export_ticket_sales_promotions (
     sales_promotion_id VARCHAR(4) NOT NULL,
 promotion_internal VARCHAR(40) NOT NULL,
 promotion_external VARCHAR(40) NOT NULL,
@@ -16,4 +24,6 @@ fee_3 DECIMAL(4,2) NOT NULL,
 promotion_type VARCHAR(12) NOT NULL,
 created_at DATETIME DEFAULT GETDATE()
     );
+    END
+    GO
     

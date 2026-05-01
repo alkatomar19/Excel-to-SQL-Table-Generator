@@ -1,5 +1,13 @@
 
-    CREATE TABLE staging.export_ticket_event_performances (
+    IF NOT EXISTS (
+    SELECT 1
+    FROM sys.tables t
+    JOIN sys.schemas s ON t.schema_id = s.schema_id
+    WHERE t.name = 'export_ticket_event_performances'
+      AND s.name = 'staging'
+    )
+    BEGIN
+        CREATE TABLE staging.export_ticket_event_performances (
     event_id VARCHAR(4) NOT NULL,
 year VARCHAR(4) NOT NULL,
 event_code VARCHAR(6) NOT NULL,
@@ -32,4 +40,6 @@ performance_pricing_map_id VARCHAR(2) NOT NULL,
 pricing_map_name VARCHAR(50) NOT NULL,
 created_at DATETIME DEFAULT GETDATE()
     );
+    END
+    GO
     

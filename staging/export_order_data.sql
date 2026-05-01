@@ -1,5 +1,13 @@
 
-    CREATE TABLE staging.export_order_data (
+    IF NOT EXISTS (
+    SELECT 1
+    FROM sys.tables t
+    JOIN sys.schemas s ON t.schema_id = s.schema_id
+    WHERE t.name = 'export_order_data'
+      AND s.name = 'staging'
+    )
+    BEGIN
+        CREATE TABLE staging.export_order_data (
     patron_id VARCHAR(5) NOT NULL,
 first_name VARCHAR(20) NULL,
 last_name VARCHAR(21) NULL,
@@ -12,4 +20,6 @@ order_notes_internal VARCHAR(1000) NULL,
 order_notes_external VARCHAR(1000) NULL,
 created_at DATETIME DEFAULT GETDATE()
     );
+    END
+    GO
     

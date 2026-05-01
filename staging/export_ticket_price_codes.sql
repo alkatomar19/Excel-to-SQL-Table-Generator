@@ -1,5 +1,13 @@
 
-    CREATE TABLE staging.export_ticket_price_codes (
+    IF NOT EXISTS (
+    SELECT 1
+    FROM sys.tables t
+    JOIN sys.schemas s ON t.schema_id = s.schema_id
+    WHERE t.name = 'export_ticket_price_codes'
+      AND s.name = 'staging'
+    )
+    BEGIN
+        CREATE TABLE staging.export_ticket_price_codes (
     id INT IDENTITY(1,1) PRIMARY KEY,
 year VARCHAR(4) NOT NULL,
 event_id VARCHAR(4) NOT NULL,
@@ -15,4 +23,6 @@ active BIT NOT NULL,
 base_price DECIMAL(7,2) NOT NULL,
 created_at DATETIME DEFAULT GETDATE()
     );
+    END
+    GO
     

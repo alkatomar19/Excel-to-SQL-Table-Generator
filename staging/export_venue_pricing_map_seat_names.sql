@@ -1,5 +1,13 @@
 
-    CREATE TABLE staging.export_venue_pricing_map_seat_names (
+    IF NOT EXISTS (
+    SELECT 1
+    FROM sys.tables t
+    JOIN sys.schemas s ON t.schema_id = s.schema_id
+    WHERE t.name = 'export_venue_pricing_map_seat_names'
+      AND s.name = 'staging'
+    )
+    BEGIN
+        CREATE TABLE staging.export_venue_pricing_map_seat_names (
     map_seat_id VARCHAR(5) NOT NULL,
 pricing_map_id VARCHAR(2) NOT NULL,
 logical_seat VARCHAR(3) NOT NULL,
@@ -11,4 +19,6 @@ seat_note VARCHAR(39) NULL,
 price_codes_available VARCHAR(17) NOT NULL,
 created_at DATETIME DEFAULT GETDATE()
     );
+    END
+    GO
     

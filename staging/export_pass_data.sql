@@ -1,5 +1,13 @@
 
-    CREATE TABLE staging.export_pass_data (
+    IF NOT EXISTS (
+    SELECT 1
+    FROM sys.tables t
+    JOIN sys.schemas s ON t.schema_id = s.schema_id
+    WHERE t.name = 'export_pass_data'
+      AND s.name = 'staging'
+    )
+    BEGIN
+        CREATE TABLE staging.export_pass_data (
     patron_id VARCHAR(5) NOT NULL,
 first_name VARCHAR(12) NULL,
 last_name VARCHAR(12) NULL,
@@ -33,4 +41,6 @@ pass_notes VARCHAR(255) NULL,
 order_id VARCHAR(6) NOT NULL,
 created_at DATETIME DEFAULT GETDATE()
     );
+    END
+    GO
     

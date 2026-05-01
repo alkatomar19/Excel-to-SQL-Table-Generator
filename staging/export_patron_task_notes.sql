@@ -1,5 +1,13 @@
 
-    CREATE TABLE staging.export_patron_task_notes (
+    IF NOT EXISTS (
+    SELECT 1
+    FROM sys.tables t
+    JOIN sys.schemas s ON t.schema_id = s.schema_id
+    WHERE t.name = 'export_patron_task_notes'
+      AND s.name = 'staging'
+    )
+    BEGIN
+        CREATE TABLE staging.export_patron_task_notes (
     id INT IDENTITY(1,1) PRIMARY KEY,
 patron_id VARCHAR(5) NOT NULL,
 first_name VARCHAR(10) NULL,
@@ -16,4 +24,6 @@ description VARCHAR(48) NOT NULL,
 notes VARCHAR(255) NULL,
 created_at DATETIME DEFAULT GETDATE()
     );
+    END
+    GO
     

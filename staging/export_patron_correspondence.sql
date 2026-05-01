@@ -1,5 +1,13 @@
 
-    CREATE TABLE staging.export_patron_correspondence (
+    IF NOT EXISTS (
+    SELECT 1
+    FROM sys.tables t
+    JOIN sys.schemas s ON t.schema_id = s.schema_id
+    WHERE t.name = 'export_patron_correspondence'
+      AND s.name = 'staging'
+    )
+    BEGIN
+        CREATE TABLE staging.export_patron_correspondence (
     patron_id VARCHAR(5) NOT NULL,
 first_name VARCHAR(18) NULL,
 last_name VARCHAR(21) NULL,
@@ -15,4 +23,6 @@ donation_id BIT NOT NULL,
 order_id VARCHAR(6) NOT NULL,
 created_at DATETIME DEFAULT GETDATE()
     );
+    END
+    GO
     

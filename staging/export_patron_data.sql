@@ -1,5 +1,13 @@
 
-    CREATE TABLE staging.export_patron_data (
+    IF NOT EXISTS (
+    SELECT 1
+    FROM sys.tables t
+    JOIN sys.schemas s ON t.schema_id = s.schema_id
+    WHERE t.name = 'export_patron_data'
+      AND s.name = 'staging'
+    )
+    BEGIN
+        CREATE TABLE staging.export_patron_data (
     patron_id VARCHAR(5) NOT NULL,
 patron_type VARCHAR(23) NOT NULL,
 salutation VARCHAR(11) NULL,
@@ -56,4 +64,6 @@ household_id INT NULL,
 primary_household_patron_id INT NULL,
 created_at DATETIME DEFAULT GETDATE()
     );
+    END
+    GO
     

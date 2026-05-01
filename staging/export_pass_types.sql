@@ -1,5 +1,13 @@
 
-    CREATE TABLE staging.export_pass_types (
+    IF NOT EXISTS (
+    SELECT 1
+    FROM sys.tables t
+    JOIN sys.schemas s ON t.schema_id = s.schema_id
+    WHERE t.name = 'export_pass_types'
+      AND s.name = 'staging'
+    )
+    BEGIN
+        CREATE TABLE staging.export_pass_types (
     pass_type_id VARCHAR(2) NOT NULL,
 pass_description VARCHAR(36) NOT NULL,
 pass_description_external VARCHAR(36) NOT NULL,
@@ -14,4 +22,6 @@ notes_external VARCHAR(255) NULL,
 notes_internal VARCHAR(50) NULL,
 created_at DATETIME DEFAULT GETDATE()
     );
+    END
+    GO
     

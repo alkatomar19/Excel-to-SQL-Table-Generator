@@ -1,5 +1,13 @@
 
-    CREATE TABLE staging.export_mail_list_data_full (
+    IF NOT EXISTS (
+    SELECT 1
+    FROM sys.tables t
+    JOIN sys.schemas s ON t.schema_id = s.schema_id
+    WHERE t.name = 'export_mail_list_data_full'
+      AND s.name = 'staging'
+    )
+    BEGIN
+        CREATE TABLE staging.export_mail_list_data_full (
     id INT IDENTITY(1,1) PRIMARY KEY,
 mail_list_id VARCHAR(3) NOT NULL,
 mail_list_name VARCHAR(47) NOT NULL,
@@ -33,4 +41,6 @@ do_not_solicit_mail BIT NOT NULL,
 do_not_solicit_phone BIT NOT NULL,
 created_at DATETIME DEFAULT GETDATE()
     );
+    END
+    GO
     

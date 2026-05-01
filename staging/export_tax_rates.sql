@@ -1,5 +1,13 @@
 
-    CREATE TABLE staging.export_tax_rates (
+    IF NOT EXISTS (
+    SELECT 1
+    FROM sys.tables t
+    JOIN sys.schemas s ON t.schema_id = s.schema_id
+    WHERE t.name = 'export_tax_rates'
+      AND s.name = 'staging'
+    )
+    BEGIN
+        CREATE TABLE staging.export_tax_rates (
     tax_rate_id VARCHAR(1) NOT NULL,
 tax_rate VARCHAR(6) NOT NULL,
 tax_1_city BIT NOT NULL,
@@ -10,4 +18,6 @@ tax_2_number VARCHAR(50) NULL,
 tax_3_number VARCHAR(50) NULL,
 created_at DATETIME DEFAULT GETDATE()
     );
+    END
+    GO
     

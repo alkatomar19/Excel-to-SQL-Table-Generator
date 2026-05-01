@@ -1,5 +1,13 @@
 
-    CREATE TABLE staging.export_gl_entry (
+    IF NOT EXISTS (
+    SELECT 1
+    FROM sys.tables t
+    JOIN sys.schemas s ON t.schema_id = s.schema_id
+    WHERE t.name = 'export_gl_entry'
+      AND s.name = 'staging'
+    )
+    BEGIN
+        CREATE TABLE staging.export_gl_entry (
     id INT IDENTITY(1,1) PRIMARY KEY,
 gl_reference VARCHAR(10) NOT NULL,
 gl_date VARCHAR(10) NOT NULL,
@@ -17,4 +25,6 @@ credit DECIMAL(9,2) NOT NULL,
 gl_posted_date VARCHAR(19) NOT NULL,
 created_at DATETIME DEFAULT GETDATE()
     );
+    END
+    GO
     

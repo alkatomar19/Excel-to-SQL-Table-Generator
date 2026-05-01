@@ -1,5 +1,13 @@
 
-    CREATE TABLE staging.export_order_fees (
+    IF NOT EXISTS (
+    SELECT 1
+    FROM sys.tables t
+    JOIN sys.schemas s ON t.schema_id = s.schema_id
+    WHERE t.name = 'export_order_fees'
+      AND s.name = 'staging'
+    )
+    BEGIN
+        CREATE TABLE staging.export_order_fees (
     patron_id VARCHAR(5) NOT NULL,
 first_name VARCHAR(20) NULL,
 last_name VARCHAR(21) NULL,
@@ -17,4 +25,6 @@ fee_total DECIMAL(4,1) NOT NULL,
 order_id VARCHAR(6) NOT NULL,
 created_at DATETIME DEFAULT GETDATE()
     );
+    END
+    GO
     

@@ -1,5 +1,13 @@
 
-    CREATE TABLE staging.export_patron_addresses (
+    IF NOT EXISTS (
+    SELECT 1
+    FROM sys.tables t
+    JOIN sys.schemas s ON t.schema_id = s.schema_id
+    WHERE t.name = 'export_patron_addresses'
+      AND s.name = 'staging'
+    )
+    BEGIN
+        CREATE TABLE staging.export_patron_addresses (
     id INT IDENTITY(1,1) PRIMARY KEY,
 patron_id VARCHAR(5) NOT NULL,
 first_name VARCHAR(31) NULL,
@@ -15,4 +23,6 @@ postal_code VARCHAR(10) NULL,
 country VARCHAR(9) NULL,
 created_at DATETIME DEFAULT GETDATE()
     );
+    END
+    GO
     

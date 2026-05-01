@@ -1,5 +1,13 @@
 
-    CREATE TABLE staging.export_volunteer_positions (
+    IF NOT EXISTS (
+    SELECT 1
+    FROM sys.tables t
+    JOIN sys.schemas s ON t.schema_id = s.schema_id
+    WHERE t.name = 'export_volunteer_positions'
+      AND s.name = 'staging'
+    )
+    BEGIN
+        CREATE TABLE staging.export_volunteer_positions (
     id INT IDENTITY(1,1) PRIMARY KEY,
 patron_id VARCHAR(5) NOT NULL,
 first_name VARCHAR(14) NULL,
@@ -11,4 +19,6 @@ do_it_again BIT NOT NULL,
 volunteer_note VARCHAR(32) NULL,
 created_at DATETIME DEFAULT GETDATE()
     );
+    END
+    GO
     
